@@ -1,0 +1,45 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n,m,l;
+    cin>>n;
+    cin>>m;
+    cin>>l;
+    int p1, p2;
+    unsigned int matrixA[l][n];
+    unsigned int matrixB[l][m];
+    unsigned int q;
+    for (int i=0;i<n;++i) {
+        for (int j=0; j<l;++j) {
+            scanf("%15d",&matrixA[j][i]);
+        }
+    }
+    for (int i=0;i<m;++i) {
+        for (int j=0; j<l;++j) {
+            scanf("%15d",&matrixB[j][i]);
+        }
+    }
+    scanf("%15d",&q);
+    while(q){
+        scanf("%15d",&p1);
+        scanf("%15d",&p2);
+        int left = 0;
+        int right = l-1;
+        while (right - left > 1) {
+            int middle = (left + right) / 2;
+            if (matrixA[middle][p1-1] <= matrixB[middle][p2-1]) {
+                left = middle;
+            } else{
+                right = middle;
+            }
+        }
+        if(max(matrixA[right][p1-1], matrixB[right][p2-1])>max(matrixA[left][p1-1], matrixB[left][p2-1])) {
+            printf("%15d \n",left+1);
+        } else {
+            printf("%15d \n",right+1);
+        }
+        --q;
+    }
+    return 0;
+}

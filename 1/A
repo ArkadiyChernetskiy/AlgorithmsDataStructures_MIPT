@@ -1,0 +1,95 @@
+#include <iostream>
+#include <string>
+
+struct List{
+    int value;
+    int size;
+    List* next;
+};
+
+struct Stack{
+    List* last;
+};
+
+void Clean(Stack* stack){
+    while(stack -> last != NULL) {
+        List* current = stack -> last;
+        stack -> last = current -> next;
+        delete current;
+    }
+}
+
+int Size(Stack* stack){
+    if(stack -> last == NULL) {
+        return 0;
+    }
+    return (stack -> last) -> size;
+}
+
+void Push(Stack* stack, int n){
+    List* elem = new List;
+    elem -> value = n;
+    if(stack -> last ==NULL){
+        elem -> size = 1;
+    }
+    else{
+        elem -> size = (stack -> last) -> size + 1;
+    }
+    elem -> next = stack -> last;
+    stack -> last = elem;
+    std::cout << "ok" <<'\n';
+}
+
+void Back(Stack* stack){
+    if(stack -> last == NULL){
+        std::cout << "error" <<'\n';
+    }
+    else {
+        std::cout <<  stack -> last -> value << '\n';
+    }
+}
+
+void Pop(Stack* stack) {
+    if (stack->last == NULL) {
+        std::cout << "error" << '\n';
+    }
+    else {
+        int current = (stack->last)->value;
+        List* t = stack->last;
+        stack->last = t->next;
+        std::cout << current << '\n';
+        delete t;
+    }
+}
+
+int main() {
+    Stack *stack = new Stack;
+    stack->last = nullptr;
+    std::string input;
+    std::cin >> input;
+    while (input!="exit") {
+        if (input == "clear") {
+            std::cout << "ok" << '\n';
+            Clean(stack);
+        }
+        else if(input == "pop"){
+            Pop(stack);
+        }
+        else if(input == "back"){
+            Back(stack);
+        }
+        else if(input == "size"){
+            std::cout<<Size(stack)<<'\n';
+        }
+        else if(input == "push"){
+            int n;
+            std::cin >> n;
+            Push(stack, n);
+        }
+        std::cin >> input;
+    }
+    std::cout << "bye" << '\n';
+    Clean(stack);
+    return 0;
+}
+ 

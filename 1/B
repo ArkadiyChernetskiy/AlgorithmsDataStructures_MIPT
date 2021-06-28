@@ -1,0 +1,45 @@
+#include <iostream>
+#include <stack>
+
+int main() {
+    std::stack <int> s;
+    std::string str;
+    getline(std::cin, str);
+    long long int size = str.size();
+    for(int i=0; i<size;i++){
+        if(str[i]=='{'){
+            s.push(1);
+        }
+        if(str[i]=='['){
+            s.push(2);
+        }
+        if(str[i]=='('){
+            s.push(3);
+        }
+        if(str[i]=='}'&&s.empty()==0&&s.top()==1){
+            s.pop();
+        }
+        else if(str[i]=='}'){
+            s.push(4);
+        }
+        if(str[i]==']'&&s.empty()==0&&s.top()==2){
+            s.pop();
+        }
+        else if(str[i]==']'){
+            s.push(4);
+        }
+        if(str[i]==')'&&s.empty()==0&&s.top()==3){
+            s.pop();
+        }
+        else if(str[i]==')'){
+            s.push(4);
+        }
+    }
+    if(s.empty()){
+        puts("yes");
+    }
+    else{
+        puts("no");
+    }
+    return 0;
+}

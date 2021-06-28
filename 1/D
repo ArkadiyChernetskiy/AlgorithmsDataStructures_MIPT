@@ -1,0 +1,78 @@
+#include <iostream>
+#include <deque>
+#include <vector>
+using namespace std;
+
+struct PQqueue{
+    deque<int> d1;
+    deque<int> d2;
+};
+
+void first2toLast1(PQqueue* queuePtr){
+    if(queuePtr->d1.size()<queuePtr->d2.size()){
+        queuePtr->d1.push_back((queuePtr->d2.front()));
+        queuePtr->d2.pop_front();
+    }
+}
+
+void insertToEnd(PQqueue* queuePtr, int p){
+    queuePtr->d2.push_back(p);
+    first2toLast1(queuePtr);
+}
+
+void insertToMiddle(PQqueue* queuePtr, int p) {
+    if(queuePtr->d1.size()>=queuePtr->d2.size()){
+        queuePtr->d2.push_front(p);
+        first2toLast1(queuePtr);
+    } else {
+        queuePtr->d1.push_back(p);
+        first2toLast1(queuePtr);
+    }
+    if(queuePtr->d1.size()<queuePtr->d2.size()){
+        queuePtr->d1.push_back(queuePtr->d2.front());
+        cout<<queuePtr->d2.front()<<endl;
+        queuePtr->d2.pop_front();
+    }
+}
+
+void goblinsExit(PQqueue* queuePtr, vector <int>& answers){
+    answers.push_back(queuePtr->d1.front());
+    queuePtr->d1.pop_front();
+    first2toLast1(queuePtr);
+}
+
+void printingAnswers(vector <int>& answers){
+    for(int i=0; i<answers.size(); i++){
+        if(answers[i]!=0) {
+            cout << answers[i] << endl;
+        }
+    }
+}
+
+void insertGoblin(int n, PQqueue* queuePtr, vector <int>& answers){
+    char s;
+    int p=0;
+    for(int i = 0; i < n; i++) {
+        cin>>s;
+        if (s=='+'||s=='*') {
+            cin >> p;
+            if (s=='+') {
+                insertToEnd(queuePtr, p);
+            } else {
+                insertToMiddle(queuePtr, p);
+            }
+        } else {
+            goblinsExit(queuePtr, answers);
+        }
+    }
+}
+
+int main() {
+    PQqueue* queuePtr = new PQqueue;
+    vector <int> answers;
+    int n;
+    cin>>n;
+    insertGoblin(n, queuePtr, answers);
+    printingAnswers(answers);
+    return 0;
+}

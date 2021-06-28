@@ -1,0 +1,34 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+int main() {
+    long int n, h;
+    long long MaxS=0;
+    long long hPrev=0;
+    long long area=0;
+    stack<pair<int, int>>columns;
+    scanf("%d",&n);
+    columns.push(make_pair(0,-1));
+    for(int i = 1; i <= n + 1; i++){
+        if (i <= n){
+            scanf("%d",&h);
+        }
+        else{
+            h = 0;
+        }
+        int x = i;
+        while (h <= columns.top().second){
+            x = columns.top().first;
+            hPrev = columns.top().second;
+            columns.pop();
+            area = 1LL* hPrev * (i - x);
+            if (area > MaxS) {
+                MaxS = area;
+            }
+        }
+        columns.push(make_pair(x,h));
+        }
+        printf("%lld", MaxS);
+        return 0;
+}
